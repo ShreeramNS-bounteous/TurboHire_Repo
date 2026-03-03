@@ -1,0 +1,47 @@
+package com.company.turbohireclone.backend.dto.interviewer;
+
+import com.company.turbohireclone.backend.enums.AttendanceStatus;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+@Builder
+@Getter
+@Setter
+public class MyInterviewDto {
+
+    private Long interviewId;
+
+    private Long candidateId;
+    private String candidateName;
+    private String candidateEmail;
+
+    private String jobTitle;
+    private Long jobId;
+    private String roundName;
+    private String evaluationTemplateCode;
+    private boolean hasNextRound;
+
+    private String slotDate;
+    private String startTime;
+    private String endTime;
+
+    private String meetingUrl;
+    private String status;
+
+    private AttendanceStatus attendanceStatus;
+    private boolean feedbackSubmitted;
+
+    private Integer rating;
+    private String recommendation;
+    private String comments;
+    private LocalDateTime submittedAt;
+
+    // 🔥 Proper Types (No String)
+    private Map<String, Object> education;
+    private List<String> skills;
+    private String currentCompany;
+    private Double totalExperience;
+}
