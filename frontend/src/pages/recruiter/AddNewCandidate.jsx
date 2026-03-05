@@ -24,7 +24,12 @@ const fileToBase64 = (file) =>
     });
   
     const handleChange = (e) => {
-      setForm({ ...form, [e.target.name]: e.target.value });
+      if (e.target.name == 'phone') {
+        const limit = 10;
+        setForm({ ...form, [e.target.name]: e.target.value.slice(0, limit) });
+      } else {
+        setForm({ ...form, [e.target.name]: e.target.value });
+      }
     };
   
     const handleFileChange = (e) => {
@@ -118,6 +123,9 @@ const fileToBase64 = (file) =>
               className="w-full border p-2 rounded"
             />
             <input
+              type="number"
+              max
+              maxLength={10}
               name="phone"
               placeholder="Phone (optional)"
               value={form.phone}

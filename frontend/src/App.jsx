@@ -56,7 +56,7 @@ function App() {
           }
         >
           <Route index element={<RecruiterDashboard />} />
-          <Route path="business-units" element={<BusinessUnits />} />
+          
           <Route path="jobs" element={<JobsDashboard />} />
           <Route path="jobs/create" element={<CreateJob />} />
           <Route path="pipeline" element={<Pipeline />} />
@@ -97,6 +97,7 @@ function App() {
 
           {/* ✅ ADD THIS */}
           <Route path="users" element={<AdminUsers />} />
+          <Route path="business-units" element={<BusinessUnits />} />
         </Route>
         {/* CANDIDATE PORTAL */}
         <Route path="/candidate-portal" element={<CandidatePortal />} />

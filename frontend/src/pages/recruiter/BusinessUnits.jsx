@@ -46,7 +46,7 @@ export default function BusinessUnits() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-4">Business Units</h1>
+      <h1 className="text-2xl text-white font-semibold mb-4">Business Units</h1>
 
       {/* Create Business Unit */}
       <div className="bg-white p-4 rounded shadow mb-6 flex gap-4">

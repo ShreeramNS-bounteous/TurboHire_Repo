@@ -74,7 +74,7 @@ export default function JobCard({
             text-center
           "
         >
-          <CountItem label="Pool" value={counts.pool} />
+         
           <CountItem label="Shortlist" value={counts.shortlisted} />
 
           {counts.rounds.map((r) => (
