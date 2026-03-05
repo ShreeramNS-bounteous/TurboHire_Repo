@@ -43,7 +43,7 @@ export default function AdminUsers() {
     <div className="p-8 space-y-6">
 
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Users</h1>
+        <h1 className="text-2xl text-white font-bold">Users</h1>
 
         <button
           onClick={() => setShowModal(true)}

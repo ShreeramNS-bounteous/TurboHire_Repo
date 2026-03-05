@@ -4,7 +4,8 @@ import {
   LayoutDashboard,
   Users,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Building2,
 } from "lucide-react";
 
 const baseLink =
@@ -84,6 +85,21 @@ const AdminSidebar = () => {
       >
         <Users size={18} />
         {!collapsed && <span>Users</span>}
+      </NavLink>
+      <NavLink
+        to="/admin/business-units"
+        className={({ isActive }) =>
+          `${baseLink} ${
+            collapsed ? "justify-center" : "gap-3"
+          } ${
+            isActive
+              ? "bg-white text-[#0f172a] shadow-md"
+              : "text-gray-300 hover:bg-gray-800 hover:text-white"
+          }`
+        }
+      >
+        <Building2 size={18} />
+        {!collapsed && <span>Business Unit</span>}
       </NavLink>
     </aside>
   );

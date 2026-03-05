@@ -6,7 +6,7 @@ export default function Personal({
   sidebarOpen,
   setSidebarOpen,
   candidate,
-  token
+  token,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -20,8 +20,8 @@ export default function Personal({
     education: {
       degree: "",
       college: "",
-      year: ""
-    }
+      year: "",
+    },
   });
 
   // =========================
@@ -38,8 +38,8 @@ export default function Personal({
         education: {
           degree: candidate.education?.degree || "",
           college: candidate.education?.college || "",
-          year: candidate.education?.year || ""
-        }
+          year: candidate.education?.year || "",
+        },
       });
 
       setIsFresher(experience === 0);
@@ -59,9 +59,7 @@ export default function Personal({
           : Number(candidateProfileEntity.totalExperience),
         skills: candidateProfileEntity.skills,
         education: candidateProfileEntity.education,
-        currentCompany: isFresher
-          ? ""
-          : candidateProfileEntity.currentCompany
+        currentCompany: isFresher ? "" : candidateProfileEntity.currentCompany,
       });
 
       const updatedExperience = updated.totalExperience ?? 0;
@@ -73,14 +71,14 @@ export default function Personal({
         education: {
           degree: updated.education?.degree || "",
           college: updated.education?.college || "",
-          year: updated.education?.year || ""
-        }
+          year: updated.education?.year || "",
+        },
       });
 
       setIsFresher(updatedExperience === 0);
 
       setIsEditing(false);
-      toast.success("Profile Updated Successfully")
+      toast.success("Profile Updated Successfully");
     } catch (err) {
       toast.error("Update failed:", err);
     } finally {
@@ -88,10 +86,10 @@ export default function Personal({
     }
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <>
-    
-
       {/* OVERLAY */}
       {sidebarOpen && (
         <div
@@ -126,7 +124,6 @@ export default function Personal({
 
         {/* CONTENT */}
         <div className="p-6 space-y-6">
-
           {/* EXPERIENCE */}
           <div>
             <label className="text-xs font-bold text-slate-400 uppercase">
@@ -144,7 +141,7 @@ export default function Personal({
                       setIsFresher(checked);
                       setCandidateProfileEntity({
                         ...candidateProfileEntity,
-                        totalExperience: checked ? 0 : ""
+                        totalExperience: checked ? 0 : "",
                       });
                     }}
                   />
@@ -157,12 +154,16 @@ export default function Personal({
                     step="0.5"
                     min="0"
                     value={candidateProfileEntity.totalExperience}
-                    onChange={(e) =>
-                      setCandidateProfileEntity({
-                        ...candidateProfileEntity,
-                        totalExperience: e.target.value
-                      })
-                    }
+                    onChange={(e) => {
+                      const value = e.target.value;
+
+                      if (value === "" || parseFloat(value) >= 0) {
+                        setCandidateProfileEntity({
+                          ...candidateProfileEntity,
+                          totalExperience: value,
+                        });
+                      }
+                    }}
                     className="w-full border p-2 rounded"
                   />
                 )}
@@ -190,7 +191,7 @@ export default function Personal({
                   onChange={(e) =>
                     setCandidateProfileEntity({
                       ...candidateProfileEntity,
-                      currentCompany: e.target.value
+                      currentCompany: e.target.value,
                     })
                   }
                   className="mt-2 w-full border p-2 rounded"
@@ -216,9 +217,7 @@ export default function Personal({
                 onChange={(e) =>
                   setCandidateProfileEntity({
                     ...candidateProfileEntity,
-                    skills: e.target.value
-                      .split(",")
-                      .map((s) => s.trim())
+                    skills: e.target.value.split(",").map((s) => s.trim()),
                   })
                 }
                 className="mt-2 w-full border p-2 rounded"
@@ -254,8 +253,8 @@ export default function Personal({
                       ...candidateProfileEntity,
                       education: {
                         ...candidateProfileEntity.education,
-                        degree: e.target.value
-                      }
+                        degree: e.target.value,
+                      },
                     })
                   }
                   className="w-full border p-2 rounded"
@@ -270,8 +269,8 @@ export default function Personal({
                       ...candidateProfileEntity,
                       education: {
                         ...candidateProfileEntity.education,
-                        college: e.target.value
-                      }
+                        college: e.target.value,
+                      },
                     })
                   }
                   className="w-full border p-2 rounded"
@@ -280,16 +279,27 @@ export default function Personal({
                 <input
                   type="number"
                   placeholder="Year of Graduation"
+                  min="1950"
+                  max={currentYear + 5}
                   value={candidateProfileEntity.education.year}
-                  onChange={(e) =>
-                    setCandidateProfileEntity({
-                      ...candidateProfileEntity,
-                      education: {
-                        ...candidateProfileEntity.education,
-                        year: e.target.value
-                      }
-                    })
-                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+
+                    if (
+                      value === "" ||
+                      (/^\d{1,4}$/.test(value) &&
+                        Number(value) >= 1950 &&
+                        Number(value) <= currentYear + 5)
+                    ) {
+                      setCandidateProfileEntity({
+                        ...candidateProfileEntity,
+                        education: {
+                          ...candidateProfileEntity.education,
+                          year: value,
+                        },
+                      });
+                    }
+                  }}
                   className="w-full border p-2 rounded"
                 />
               </div>

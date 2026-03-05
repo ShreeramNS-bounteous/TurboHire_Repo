@@ -6,8 +6,11 @@ import com.company.turbohireclone.backend.dto.job.JobResponse;
 import com.company.turbohireclone.backend.dto.job.UpdateJobRequest;
 import com.company.turbohireclone.backend.entity.BusinessUnit;
 import com.company.turbohireclone.backend.entity.Job;
+import com.company.turbohireclone.backend.entity.User;
 import com.company.turbohireclone.backend.repository.BURepository;
+import com.company.turbohireclone.backend.repository.UserRepository;
 import com.company.turbohireclone.backend.security.util.SecurityUtils;
+import com.company.turbohireclone.backend.services.BusinessUnitService;
 import com.company.turbohireclone.backend.services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +25,7 @@ public class JobController {
 
     private final JobService jobService;
     private final BURepository buRepository;
+    private final UserRepository userRepository;
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','RECRUITER')")
@@ -29,8 +33,19 @@ public class JobController {
 
         Long actorUserId = SecurityUtils.getCurrentUserId();
 
-        BusinessUnit bu = buRepository.findById(req.getBuId())
-                .orElseThrow(() -> new RuntimeException("Business Unit not found"));
+        User actor = userRepository.findById(actorUserId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        BusinessUnit bu;
+
+        // 🔐 If recruiter → force their own BU
+        if (actor.getRole().equals("RECRUITER")) {
+            bu = actor.getBusinessUnit();
+        } else {
+            // ADMIN can choose BU
+            bu = buRepository.findById(req.getBuId())
+                    .orElseThrow(() -> new RuntimeException("Business Unit not found"));
+        }
 
         Job job = Job.builder()
                 .title(req.getTitle())
